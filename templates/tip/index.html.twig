@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TipController!{% endblock %}
+
+{% block body %}
+<div class="flex content-center justify-center flex-wrap">
+  {% for tip in tips %}
+  <div class="max-w-sm rounded overflow-hidden shadow-lg my-5 mx-5">
+    {%if tip.image %}
+    <img class="w-full card-image" src="{{ asset('uploads/tips/' ~ tip.image) | imagine_filter('thumbnail_400x250')}}">
+    {% endif %}
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">{{ tip.title|e }}</div>
+      <p class="text-gray-700 text-base">
+        {{ tip.content|e }}
+      </p>
+      {% if is_granted('edit', tip) %}
+      <a href="{{path("tip:edit", {tipId: tip.id})}}">EDIT</a>
+
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
