@@ -19,7 +19,10 @@
     "build": "encore production --progress"
   },
   "engines": {
-    "node": ">= 6.9.4",
-    "npm": ">= 4.4.0"
+    "node": "7.6.0",
+    "yarn": "0.21.3"
+  },
+  "scripts": {
+    "postinstall": "npm run build"
   }
 }
