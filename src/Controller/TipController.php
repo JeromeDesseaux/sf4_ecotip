@@ -8,6 +8,7 @@ use App\Service\FileUploader;
 use App\Repository\TipRepository;
 use App\Voter\TipVoter;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,9 +29,10 @@ class TipController extends AbstractController
     /**
      * @Route("/", name="tip:index")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator, Request $request)
     {
-        $tips = $this->tipRepository->findAll();
+        $tips = $paginator->paginate($this->tipRepository->findAll(), $request->query->getInt('page', 1), 25);
+        // $tips = $this->tipRepository->findAll();
         return $this->render('tip/index.html.twig', compact("tips"));
     }
 
@@ -90,5 +92,25 @@ class TipController extends AbstractController
         return $this->render('tip/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/tip/delete/{tipId}", name="tip:delete")
+     */
+    public function deleteTip($tipId)
+    {
+        $tip = $this->tipRepository->find($tipId);
+
+        if ($tip) {
+            $this->entityManager->remove($tip);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', "Your tip has been deleted.");
+
+            return $this->redirectToRoute("tip:index");
+        }
+        $this->addFlash('error', "An error occured while trying to delete your tip.");
+
+        return $this->redirectToRoute("tip:index");
     }
 }

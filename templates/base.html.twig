@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}Welcome!{% endblock %}</title>
+  <title>EcoTips | {% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/5279f5b318.js"></script>
+
   {% block stylesheets %}
   {{ encore_entry_link_tags('app/css') }}
   {% endblock %}
@@ -19,7 +21,9 @@
         <path
           d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z" />
       </svg>
-      <span class="font-semibold text-xl tracking-tight">EcoTips</span>
+      <a href="/">
+        <span class="font-semibold text-xl tracking-tight">EcoTips</span>
+      </a>
     </div>
     <div class="block lg:hidden">
       <button id="nav-toggle"
@@ -37,14 +41,27 @@
         </a>
       </div>
       <div>
-        <a href="#"
+        {% if app.user %}
+        <a href="{{path('fos_user_security_logout')}}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Logout
+          {{ app.user.username }}</a>
+
+        {% else %}
+        <a href="{{path('fos_user_security_login')}}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Login</a>
+        <a href="{{path('fos_user_registration_register')}}"
+          class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Register</a>
+
+        {% endif %}
+
+        <a href="https://github.com/JeromeDesseaux/sf4_ecotip"
           class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">❤
           Github</a>
       </div>
     </div>
   </nav>
 
-  {% block body %}{% endblock %}
+  {% block body %}{% block fos_user_content %}{% endblock %}{% endblock %}
   {% block javascripts %}
   {{ encore_entry_script_tags('app') }}
   {% endblock %}

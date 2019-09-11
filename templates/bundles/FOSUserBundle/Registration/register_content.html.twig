@@ -1,0 +1,21 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container mx-auto flex justify-center flex-wrap">
+  <h1 class="text-4xl w-full mb-5">Please register</h1>
+
+  {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register w-full'}})
+  }}
+  {{ form_row(form.email, {"attr": {"class": "my-3 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"}})
+  }}
+  {{ form_row(form.username, {"attr": {"class": "my-3 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"}})
+  }}
+  {{ form_row(form.plainPassword.first, {"attr": {"class": "my-3 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"}})
+  }}
+  {{ form_row(form.plainPassword.second, {"attr": {"class": "my-3 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"}})
+  }}
+  <div>
+    <input type="submit" value="{{ 'registration.submit'|trans }}"
+      class="my-3 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" />
+  </div>
+  {{ form_end(form) }}
+</div>

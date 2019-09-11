@@ -37,9 +37,7 @@ class ImageCacheSubscriber implements EventSubscriber
 
     public function postPersist(LifecycleEventArgs $eventArgs)
     {
-        // TODO
-        dd("PERSIST");
-        // $this->removeCacheImage($eventArgs);
+        // TODO : Récupérer l'image uploadée, la compresser, réduire de taille et enregistrer au même chemin. 
     }
 
     public function preUpdate(LifecycleEventArgs $eventArgs)
@@ -55,10 +53,15 @@ class ImageCacheSubscriber implements EventSubscriber
     public function removeCacheImage(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();
+        try {
+            $imageFile = $entity->getImageFile();
+        } catch (\Throwable $th) {
+            return;
+        }
         if ($entity instanceof Property) {
             return;
         }
-        if ($entity->getImageFile() instanceof UploadedFile && $entity instanceof Tip) {
+        if ($imageFile instanceof UploadedFile && $entity instanceof Tip) {
             $path  = $this->uploaderHelper->asset($entity, "imageFile");
             if (!is_null($path)) {
                 $this->cacheManager->remove($this->uploaderHelper->asset($entity, "imageFile", Tip::class));

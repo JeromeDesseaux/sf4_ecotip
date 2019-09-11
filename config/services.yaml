@@ -31,5 +31,6 @@ services:
 
 parameters:
     upload_directory: "/uploads/tips/"
+    mailer_user: "contact@tip.net"
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

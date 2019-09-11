@@ -1,0 +1,14 @@
+easy_admin:
+    entities:
+        Tip:
+            class: App\Entity\Tip
+            form:
+                fields:
+                    - { property: "title" }
+                    - { property: "content" }
+                    - { property: "user" }
+                    - { property: "imageFile", type: "vich_image" }
+            #  # List the entity class name you want to manage
+            #  - App\Entity\Product
+            #  - App\Entity\Category
+            # - App\Entity\Tip

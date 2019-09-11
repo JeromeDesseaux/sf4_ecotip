@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TipController!{% endblock %}
+{% block title %}Top tips{% endblock %}
 
 {% block body %}
 <div class="flex content-center justify-center flex-wrap">
@@ -8,18 +8,27 @@
   <div class="max-w-sm rounded overflow-hidden shadow-lg my-5 mx-5">
     {%if tip.image %}
     <img class="w-full card-image" src="{{ asset('uploads/tips/' ~ tip.image) | imagine_filter('thumbnail_400x250')}}">
+    {% else %}
+    <img class="w-full card-image"
+      src="https://via.placeholder.com/400x250.png?text=Edit%20and%20add%20your%20own%20image%20=D">
     {% endif %}
     <div class="px-6 py-4">
-      <div class="font-bold text-xl mb-2">{{ tip.title|e }}</div>
+      <div class="font-bold text-xl mb-2"><span>{% if is_granted('edit', tip) %}<a
+            href="{{path("tip:edit", {tipId: tip.id})}}"><i
+              class="fas fa-edit text-teal-600 hover:text-teal-800"></i></a><a
+            href="{{path("tip:delete", {tipId: tip.id})}}"><i
+              class="fas fa-trash mx-2 text-red-700 hover:text-red-800"></i></a>{% endif %}
+          {{ tip.title|e }}</span></div>
       <p class="text-gray-700 text-base">
         {{ tip.content|e }}
       </p>
-      {% if is_granted('edit', tip) %}
-      <a href="{{path("tip:edit", {tipId: tip.id})}}">EDIT</a>
-
-      {% endif %}
     </div>
   </div>
   {% endfor %}
+  <div class="navigation w-full">
+    <div class="mx-auto justify-center">
+      {{ knp_pagination_render(tips) }}
+    </div>
+  </div>
 </div>
 {% endblock %}
