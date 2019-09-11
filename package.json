@@ -23,6 +23,7 @@
     "yarn": "0.21.3"
   },
   "scripts": {
-    "postinstall": "npm run build"
+    "postinstall": "yarn run build"
   }
+
 }
